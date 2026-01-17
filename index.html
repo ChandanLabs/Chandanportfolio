@@ -26,12 +26,14 @@
                     <div class="status-indicator online"></div>
                 </div>
                 <h3>ChandanLabs</h3>
-                <p class="role">Backend Engineer</p>
+                <p class="role"><span id="typing-role"></span><span class="typing-cursor">|</span></p>
             </div>
 
             <nav class="nav-menu">
                 <a href="#home" class="nav-item active" data-cmd="cd /home"><i class="fas fa-home"></i> /home</a>
                 <a href="#about" class="nav-item" data-cmd="cat about.md"><i class="fas fa-user-circle"></i> /about</a>
+                <a href="#api-demo" class="nav-item" data-cmd="curl localhost:3000"><i class="fas fa-terminal"></i>
+                    /api-demo</a>
                 <a href="#skills" class="nav-item" data-cmd="./show_skills.sh"><i class="fas fa-microchip"></i>
                     /skills</a>
                 <a href="#projects" class="nav-item" data-cmd="git log --projects"><i class="fas fa-code-branch"></i>
@@ -72,7 +74,11 @@
                     <span class="control green"></span>
                 </div>
                 <div class="window-title">chandan@server: ~</div>
-                <div class="current-time" id="clock">00:00:00</div>
+                <div class="top-actions" style="display:flex; align-items:center; gap:15px; margin-left:auto;">
+                    <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme"><i
+                            class="fas fa-sun"></i></button>
+                    <div class="current-time" id="clock">00:00:00</div>
+                </div>
             </header>
 
             <!-- Scrollable Content Area -->
@@ -101,6 +107,48 @@
                             <a href="#projects" class="terminal-btn">View Projects</a>
                             <a href="assets/resume_chandan_kumar_sah_teli.pdf" class="terminal-btn outline"
                                 download>Download Logs (Resume)</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Playground Section (Backend Demo) -->
+                <section id="api-demo" class="section">
+                    <div class="terminal-header">
+                        <h2><span class="prompt">root@chandan:~/api-server$</span> node server.js</h2>
+                    </div>
+                    <div class="api-console-container">
+                        <div class="api-status-bar">
+                            <span class="status-dot green"></span> Server Status: <strong>Online</strong> | Port: 3000
+                        </div>
+
+                        <div class="api-interaction-area">
+                            <div class="request-builder">
+                                <label>>>> HTTP Request</label>
+                                <div class="input-group">
+                                    <select id="http-method" class="terminal-select">
+                                        <option value="GET">GET</option>
+                                        <option value="POST">POST</option>
+                                    </select>
+                                    <input type="text" id="api-endpoint" class="terminal-input-inline"
+                                        value="/api/active-projects" placeholder="/api/...">
+                                    <button id="send-request" class="terminal-btn-small">SEND</button>
+                                </div>
+                                <div class="available-endpoints">
+                                    <small>Available: <span class="cmd-hint"
+                                            onclick="setEndpoint('/api/active-projects')">/api/active-projects</span>,
+                                        <span class="cmd-hint"
+                                            onclick="setEndpoint('/api/system-health')">/api/system-health</span>, <span
+                                            class="cmd-hint"
+                                            onclick="setEndpoint('/api/hire-me')">/api/hire-me</span></small>
+                                </div>
+                            </div>
+
+                            <div class="response-viewer">
+                                <label>>>> Server Response</label>
+                                <pre><code id="json-response" class="language-json">
+// Waiting for request...
+                                </code></pre>
+                            </div>
                         </div>
                     </div>
                 </section>

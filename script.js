@@ -108,4 +108,191 @@ document.querySelectorAll('.terminal-btn').forEach(btn => {
     });
 });
 
+// Back to top button logic
+// Create button dynamically since it was missing in HTML
+const backToTopBtn = document.createElement('button');
+backToTopBtn.id = 'back-to-top';
+backToTopBtn.className = 'back-to-top';
+backToTopBtn.innerHTML = '↑';
+backToTopBtn.ariaLabel = "Scroll to top";
+document.body.appendChild(backToTopBtn);
+
+const innerScroll = document.querySelector('.content-scroll');
+
+function toggleBackToTop(scrollTop) {
+    if (scrollTop > 300) {
+        backToTopBtn.classList.add('show');
+    } else {
+        backToTopBtn.classList.remove('show');
+    }
+}
+
+// Listener for Desktop (Inner Scroll)
+if (innerScroll) {
+    innerScroll.addEventListener('scroll', (e) => {
+        toggleBackToTop(e.target.scrollTop);
+    });
+}
+
+// Listener for Mobile (Window Scroll)
+window.addEventListener('scroll', () => {
+    toggleBackToTop(window.scrollY);
+});
+
+backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (innerScroll) {
+        innerScroll.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+});
+
+// Role Typing Animation
+const roles = [
+    "Backend Developer",
+    "AI Engineer",
+    "Cloud Enthusiast"
+];
+const typingRoleElement = document.getElementById('typing-role');
+let roleIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let typeSpeed = 100;
+
+function typeRoleEffect() {
+    const currentRole = roles[roleIndex];
+
+    if (isDeleting) {
+        typingRoleElement.textContent = currentRole.substring(0, charIndex - 1);
+        charIndex--;
+        typeSpeed = 50; // Faster deleting
+    } else {
+        typingRoleElement.textContent = currentRole.substring(0, charIndex + 1);
+        charIndex++;
+        typeSpeed = 100; // Normal typing
+    }
+
+    if (!isDeleting && charIndex === currentRole.length) {
+        // Finished typing word
+        isDeleting = true;
+        typeSpeed = 2000; // Pause at end
+    } else if (isDeleting && charIndex === 0) {
+        // Finished deleting word
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        typeSpeed = 500; // Pause before next word
+    }
+
+    setTimeout(typeRoleEffect, typeSpeed);
+}
+
+// Start typing effect if element exists
+if (typingRoleElement) {
+    typeRoleEffect();
+}
+
+// --- NEW INTERACTIVE FEATURES ---
+
+// 1. Navigation Fix & Logic
+function navigateToSection(targetId) {
+    // Remove active class from all nav items
+    navItems.forEach(nav => {
+        nav.classList.remove('active');
+        if (nav.getAttribute('href') === `#${targetId}`) {
+            nav.classList.add('active');
+        }
+    });
+
+    // Hide all sections, show target
+    sections.forEach(sec => sec.classList.remove('active-section'));
+    const targetSection = document.getElementById(targetId);
+    if (targetSection) {
+        targetSection.classList.add('active-section');
+    }
+}
+
+// Global click listener for internal links to fix the "View Projects" bug
+document.addEventListener('click', (e) => {
+    if (e.target.matches('a[href^="#"]')) {
+        e.preventDefault();
+        const targetId = e.target.getAttribute('href').substring(1);
+        navigateToSection(targetId);
+    }
+});
+
+// 2. Theme Toggle
+const themeToggleBtn = document.getElementById('theme-toggle');
+const body = document.body;
+const icon = themeToggleBtn.querySelector('i');
+
+// Load saved theme
+if (localStorage.getItem('theme') === 'light') {
+    body.classList.add('light-mode');
+    icon.classList.replace('fa-sun', 'fa-moon');
+}
+
+themeToggleBtn.addEventListener('click', () => {
+    body.classList.toggle('light-mode');
+    if (body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+        icon.classList.replace('fa-sun', 'fa-moon');
+    } else {
+        localStorage.setItem('theme', 'dark');
+        icon.classList.replace('fa-moon', 'fa-sun');
+    }
+});
+
+// 3. API Console Logic
+const apiEndpointInput = document.getElementById('api-endpoint');
+const jsonResponseElement = document.getElementById('json-response');
+const sendRequestBtn = document.getElementById('send-request');
+
+if (sendRequestBtn) {
+    window.setEndpoint = (path) => {
+        apiEndpointInput.value = path;
+    };
+
+    sendRequestBtn.addEventListener('click', () => {
+        const endpoint = apiEndpointInput.value;
+        const method = document.getElementById('http-method').value;
+
+        jsonResponseElement.textContent = '// Processing...';
+
+        // Mock Responses
+        let responseData = {};
+
+        setTimeout(() => {
+            if (endpoint === '/api/active-projects') {
+                responseData = {
+                    status: 200,
+                    data: [
+                        { id: 101, name: "BloodByte", active: true, reqs_per_sec: 45 },
+                        { id: 102, name: "OpsGuardian", active: true, uptime: "99.9%" }
+                    ]
+                };
+            } else if (endpoint === '/api/system-health') {
+                responseData = {
+                    status: 200,
+                    system: {
+                        cpu_load: "12%",
+                        memory_free: "4096MB",
+                        tasks: "Idle"
+                    }
+                };
+            } else if (endpoint === '/api/hire-me') {
+                responseData = {
+                    status: 201,
+                    message: "Application accepted! Please email sah288012@gmail.com to schedule an interview."
+                };
+            } else {
+                responseData = {
+                    status: 404,
+                    error: "Endpoint not found"
+                };
+            }
+
+            jsonResponseElement.textContent = JSON.stringify(responseData, null, 2);
+        }, 600); // Simulate network latency
+    });
+}
+
 
