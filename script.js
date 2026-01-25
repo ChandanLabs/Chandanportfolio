@@ -43,9 +43,9 @@ async function fetchProjects() {
         // Fallback static data if API fails (simulating robustness)
         setTimeout(() => {
             const fallbackRepos = [
-                { name: "BloodByte", description: "Emergency Blood Donation System with AI integration.", html_url: "#", language: "JavaScript", stargazers_count: 5 },
-                { name: "OpsGuardian", description: "AI-driven DevOps monitoring tool.", html_url: "#", language: "Python", stargazers_count: 3 },
-                { name: "ThePhoenix-Agent", description: "Self-healing Node.js agent.", html_url: "#", language: "Node.js", stargazers_count: 10 }
+                { name: "BloodByte", description: "Emergency Blood Donation Platform with AI-driven urgency detection.", html_url: "#", language: "JavaScript", stargazers_count: 5 },
+                { name: "OpsGuardian", description: "AI-driven DevOps monitoring agent for real-time system health.", html_url: "#", language: "Python", stargazers_count: 3 },
+                { name: "ThePhoenix-Agent", description: "Self-healing Node.js service with GenAI error resolution.", html_url: "#", language: "Node.js", stargazers_count: 10 }
             ];
             displayProjects(fallbackRepos);
         }, 1000);
@@ -148,9 +148,9 @@ backToTopBtn.addEventListener('click', () => {
 
 // Role Typing Animation
 const roles = [
-    "Backend Developer",
-    "AI Engineer",
-    "Cloud Enthusiast"
+    "Junior Backend Engineer",
+    "API Developer",
+    "Cloud Learner"
 ];
 const typingRoleElement = document.getElementById('typing-role');
 let roleIndex = 0;

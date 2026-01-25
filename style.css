@@ -388,30 +388,86 @@ h2 {
     gap: 20px;
 }
 
-.kb-item,
+.kb-item {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    border: 1px solid #333;
+    border-left: 3px solid transparent;
+    padding: 20px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.kb-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: var(--accent-dim);
+    transition: width 0.3s ease;
+    z-index: 0;
+}
+
+.kb-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+    border-left-color: var(--accent);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.kb-item:hover::before {
+    width: 100%;
+}
+
+.kb-item h4 {
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-size: 1.05rem;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.kb-item h4::before {
+    content: '>';
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.kb-item p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s;
+}
+
+.kb-item:hover p {
+    color: var(--text-primary);
+}
+
 .skill-category {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid #222;
     padding: 15px;
-    transition: border-color 0.2s;
+    transition: all 0.2s;
 }
 
-.kb-item:hover,
 .skill-category:hover {
     border-color: var(--accent);
+    transform: translateY(-2px);
 }
 
-.kb-item h4,
 .skill-category h3 {
     color: var(--text-primary);
     margin-bottom: 10px;
     font-size: 1rem;
-}
-
-.kb-item p {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    line-height: 1.5;
 }
 
 .skill-tags {
@@ -788,6 +844,7 @@ body.light-mode .response-viewer {
     box-shadow: 0 0 15px var(--accent);
 }
 
+/* Responsive Styles */
 @media (max-width: 768px) {
     body {
         height: auto;
@@ -838,7 +895,6 @@ body.light-mode .response-viewer {
     .avatar-frame {
         width: 40px;
         height: 40px;
-        margin: 0;
     }
 
     .status-indicator {
@@ -917,4 +973,40 @@ body.light-mode .response-viewer {
     h1 {
         font-size: 1.8rem;
     }
+}
+
+/* Enhanced About Section Layout - Centered & Balanced */
+.about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+    /* Center the entire section horizontally */
+}
+
+/* Knowledge Base Grid - Spaced out "small boxes" */
+.kb-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.knowledge-base h3 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 1.2rem;
+    color: var(--accent);
+    border-bottom: 1px dashed #333;
+    padding-bottom: 10px;
+    text-align: left;
+    /* Keep header aligned with grid */
+}
+
+/* Ensure paragraph text is readable and not too wide */
+.about-content p {
+    max-width: 100%;
+    line-height: 1.6;
 }
