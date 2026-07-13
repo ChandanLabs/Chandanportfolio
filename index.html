@@ -1,308 +1,155 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>root@chandan:~/portfolio</title>
+    <meta name="description" content="Chandan Kumar Sah Teli - B.Tech CSE student graduating 2027, SDE fresher, backend developer, and AI builder.">
+    <title>Chandan Kumar Sah Teli | SDE Fresher Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <div class="scanline"></div>
-    <div class="overlay"></div>
-
-    <div class="terminal-container">
-        <!-- Sidebar / System Status -->
+<body data-page="sde">
+    <div class="shell">
         <aside class="sidebar">
-            <div class="user-profile">
+            <div class="profile-lockup">
                 <div class="avatar-frame">
-                    <img src="https://github.com/ChandanLabs.png" alt="Chandan" class="avatar">
-                    <div class="status-indicator online"></div>
+                    <img src="https://github.com/ChandanLabs.png" alt="Chandan Kumar Sah Teli" class="avatar">
+                    <span class="status-dot"></span>
                 </div>
-                <h3>ChandanLabs</h3>
-                <p class="role"><span id="typing-role"></span><span class="typing-cursor">|</span></p>
+                <div>
+                    <p class="eyebrow">Portfolio Kernel</p>
+                    <h1>Chandan</h1>
+                    <p class="typing-line"><span id="typing-role">SDE Fresher</span><span class="cursor">|</span></p>
+                </div>
             </div>
 
-            <nav class="nav-menu">
-                <a href="#home" class="nav-item active" data-cmd="cd /home"><i class="fas fa-home"></i> /home</a>
-                <a href="#about" class="nav-item" data-cmd="cat about.md"><i class="fas fa-user-circle"></i> /about</a>
-                <a href="#api-demo" class="nav-item" data-cmd="curl localhost:3000"><i class="fas fa-terminal"></i>
-                    /api-demo</a>
-                <a href="#skills" class="nav-item" data-cmd="./show_skills.sh"><i class="fas fa-microchip"></i>
-                    /skills</a>
-                <a href="#projects" class="nav-item" data-cmd="git log --projects"><i class="fas fa-code-branch"></i>
-                    /projects</a>
-                <a href="#contact" class="nav-item" data-cmd="./contact_me.sh"><i class="fas fa-envelope"></i>
-                    /contact</a>
+            <nav class="nav-menu" aria-label="Primary navigation">
+                <a href="#home" class="nav-item active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+                <a href="#proof" class="nav-item"><i class="fa-solid fa-chart-line"></i><span>Proof</span></a>
+                <a href="#skills" class="nav-item"><i class="fa-solid fa-layer-group"></i><span>Skills</span></a>
+                <a href="#projects" class="nav-item"><i class="fa-solid fa-code-branch"></i><span>Projects</span></a>
+                <a href="#console" class="nav-item"><i class="fa-solid fa-terminal"></i><span>API Console</span></a>
+                <a href="#contact" class="nav-item"><i class="fa-solid fa-paper-plane"></i><span>Contact</span></a>
             </nav>
 
-            <div class="system-stats">
-                <div class="stat-row">
-                    <span>CPU</span>
-                    <div class="progress-bar">
-                        <div class="fill" style="width: 12%"></div>
-                    </div>
-                </div>
-                <div class="stat-row">
-                    <span>RAM</span>
-                    <div class="progress-bar">
-                        <div class="fill" style="width: 45%"></div>
-                    </div>
-                </div>
-                <div class="stat-row">
-                    <span>NET</span>
-                    <div class="progress-bar">
-                        <div class="fill" style="width: 80%"></div>
-                    </div>
-                </div>
+            <div class="sidebar-panel">
+                <p class="panel-label">Current Target</p>
+                <strong>Internship / Associate SDE</strong>
+                <span>B.Tech CSE, graduating 2027</span>
             </div>
         </aside>
 
-        <!-- Main Terminal Content -->
-        <main class="main-content">
-            <!-- Top Bar -->
+        <main class="main-panel">
             <header class="top-bar">
-                <div class="window-controls">
+                <div class="window-controls" aria-hidden="true">
                     <span class="control red"></span>
                     <span class="control yellow"></span>
                     <span class="control green"></span>
                 </div>
-                <div class="window-title">chandan@server: ~</div>
-                <div class="top-actions" style="display:flex; align-items:center; gap:15px; margin-left:auto;">
-                    <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme"><i
-                            class="fas fa-sun"></i></button>
-                    <div class="current-time" id="clock">00:00:00</div>
+                <span class="window-title">chandan@sde-portfolio:~/career</span>
+                <div class="top-actions">
+                    <a class="top-link" href="ai.html">AI Workspace</a>
+                    <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle theme"><i class="fa-solid fa-sun"></i></button>
+                    <span id="clock" class="clock">00:00:00</span>
                 </div>
             </header>
 
-            <!-- Scrollable Content Area -->
             <div class="content-scroll">
-
-                <!-- Hero / Home Section -->
                 <section id="home" class="section active-section">
-                    <div class="terminal-welcome">
-                        <p class="prompt"><span class="user">root@chandan</span>:<span class="path">~</span>$
-                            ./init_portfolio.sh</p>
-                        <h1 class="glitch" data-text="BACKEND ENGINEERING">BACKEND ENGINEERING</h1>
-                        <p class="sub-text">Developing backend systems,
-                            designing API,
-                            and exploring cloud infrastructure..</p>
-
-                        <div class="code-block">
-                        <!-- <br> -->
-                        <p>........................................................................................</p>
-                        <h1 class="glitch" data-text="Quantum Computing DIE-HARD fan">Quantum Computing DIE-HARD fan</h1>
-                        <p>........................................................................................</p>
-                            
-                        <br>
-                            <span class="comment">// specialized_in.json</span>
-                            <pre>
-{
-  "focus": "Scalability & Security",
-  "stack": ["Node.js", "Express", "MongoDB", "SQL"],
-  "passion": "Building robust backends"
-}
-                            </pre>
+                    <div class="hero-grid">
+                        <div class="hero-copy">
+                            <p class="prompt">chandan@portfolio:~$ ./introduce --role=sde-fresher</p>
+                            <h2>B.Tech CSE student graduating 2027, building backend systems with AI instincts.</h2>
+                            <p class="lead">I am looking for internship or associate SDE roles where I can bring strong backend fundamentals, practical API/database work, and a builder mindset shaped by AI projects.</p>
+                            <div class="hero-actions">
+                                <a class="btn primary" href="#projects"><i class="fa-solid fa-code"></i> View Projects</a>
+                                <a class="btn" href="ChandanKumarSahTeli_Resume.pdf" download><i class="fa-solid fa-file-arrow-down"></i> Resume</a>
+                                <a class="btn accent" href="ai.html"><i class="fa-solid fa-brain"></i> AI Engineer Workspace</a>
+                            </div>
                         </div>
-
-                        <div class="cta-group">
-                            <a href="#projects" class="terminal-btn">View Projects</a>
-                            <a href="assets/ChandanKumarSahTeli_Resume.pdf" class="terminal-btn outline" download>Download Logs
-                                (Resume)</a>
+                        <div class="terminal-card hero-terminal" aria-label="Profile summary">
+                            <div class="terminal-card-header"><span>profile.json</span><i class="fa-solid fa-shield-halved"></i></div>
+                            <pre>{
+  "name": "Chandan Kumar Sah Teli",
+  "role": "SDE Fresher + AI Builder",
+  "graduation": "B.Tech CSE, 2027",
+  "focus": ["Backend APIs", "Databases", "System Design Basics"],
+  "ai_edge": ["RAG", "LLM Apps", "Agents", "Computer Vision"],
+  "status": "open_to_internship_and_associate_roles"
+}</pre>
                         </div>
+                    </div>
+                    <div class="metric-strip" aria-label="Portfolio signals">
+                        <div class="metric-card"><span>17+</span><p>public ChandanLabs repos</p></div>
+                        <div class="metric-card"><span>8</span><p>AIFullstack-web lab repos</p></div>
+                        <div class="metric-card"><span>2027</span><p>B.Tech CSE graduation</p></div>
+                        <div class="metric-card"><span>3</span><p>proof lanes: SDE, AI, DSA</p></div>
                     </div>
                 </section>
 
-                <!-- API Playground Section (Backend Demo) -->
-                <section id="api-demo" class="section">
-                    <div class="terminal-header">
-                        <h2><span class="prompt">root@chandan:~/api-server$</span> node server.js</h2>
-                    </div>
-                    <div class="api-console-container">
-                        <div class="api-status-bar">
-                            <span class="status-dot green"></span> Server Status: <strong>Online</strong> | Port: 3000
-                        </div>
-
-                        <div class="api-interaction-area">
-                            <div class="request-builder">
-                                <label>>>> HTTP Request</label>
-                                <div class="input-group">
-                                    <select id="http-method" class="terminal-select">
-                                        <option value="GET">GET</option>
-                                        <option value="POST">POST</option>
-                                    </select>
-                                    <input type="text" id="api-endpoint" class="terminal-input-inline"
-                                        value="/api/active-projects" placeholder="/api/...">
-                                    <button id="send-request" class="terminal-btn-small">SEND</button>
-                                </div>
-                                <div class="available-endpoints">
-                                    <small>Available: <span class="cmd-hint"
-                                            onclick="setEndpoint('/api/active-projects')">/api/active-projects</span>,
-                                        <span class="cmd-hint"
-                                            onclick="setEndpoint('/api/system-health')">/api/system-health</span>, <span
-                                            class="cmd-hint"
-                                            onclick="setEndpoint('/api/hire-me')">/api/hire-me</span></small>
-                                </div>
-                            </div>
-
-                            <div class="response-viewer">
-                                <label>>>> Server Response</label>
-                                <pre><code id="json-response" class="language-json">
-// Waiting for request...
-                                </code></pre>
-                            </div>
-                        </div>
+                <section id="proof" class="section">
+                    <div class="section-heading"><p class="prompt">cat proof_of_work.md</p><h2>Fresher profile, real engineering signals.</h2></div>
+                    <div class="proof-grid">
+                        <article class="proof-card"><i class="fa-solid fa-server"></i><h3>Backend API depth</h3><p>REST APIs with Node.js, Express, validation, auth flows, layered structure, and MySQL/MongoDB data modeling.</p></article>
+                        <article class="proof-card"><i class="fa-solid fa-database"></i><h3>Database thinking</h3><p>Event booking uses transactional safety and capacity control, showing attention to correctness, not just CRUD.</p></article>
+                        <article class="proof-card"><i class="fa-solid fa-robot"></i><h3>AI builder edge</h3><p>Projects cover RAG, Gemini/OpenAI integrations, AI agents, real-time vision analysis, and workflow orchestration.</p></article>
+                        <article class="proof-card"><i class="fa-solid fa-code"></i><h3>Problem-solving habit</h3><p>Core CS, DSA practice, Java fundamentals, and coding platform activity support the SDE fresher story.</p></article>
                     </div>
                 </section>
 
-                <!-- About Section -->
-                <section id="about" class="section">
-                    <div class="terminal-header">
-                        <h2><span class="prompt">root@chandan:~/about$</span> cat README.md</h2>
-                    </div>
-                    <div class="about-content">
-                        <p>> Motivated Computer Science student with strong engineering fundamentals.</p>
-                        <p>> Proficiency in building scalable APIs, designing database schemas, and integrating AI.</p>
-                        <p>> Actively learning cloud infrastructure and advanced system design while maintaining a
-                            continuous focus on clean code.</p>
-                        <br>
-                        <div class="knowledge-base">
-                            <h3><i class="fas fa-book"></i> Knowledge Base</h3>
-                            <div class="kb-grid">
-                                <div class="kb-item">
-                                    <!-- <div class="kb-item">
-                                        <h4>System Design</h4>
-                                        <p>Scalability basics, Caching (Redis), Database Normalization.</p>
-                                    </div> -->
-                                    <div class="kb-item">
-                                        <h4>Backend Engineering</h4>
-                                        <p>RESTful design, JWT Auth, Client-Server Architecture.</p>
-                                    </div>
-                                    <div class="kb-item">
-                                        <h4>AI Integration</h4>
-                                        <p>LLM APIs, Prompt Engineering, Agentic Workflows.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </section>
-
-                <!-- Skills Section -->
                 <section id="skills" class="section">
-                    <div class="terminal-header">
-                        <h2><span class="prompt">root@chandan:~/skills$</span> ./list_dependencies.sh</h2>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Languages (Intermediate)</h3>
-                        <div class="skill-tags">
-                            <span class="tag">JavaScript(Dev..)</span>
-                            <span class="tag">Java(DSA)</span>
-                            <span class="tag">Python(AI)</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Backend Engineering</h3>
-                        <div class="skill-tags">
-                            <span class="tag">Node.js & Express</span>
-                            <span class="tag">REST APIs</span>
-                            <span class="tag">Authentication (JWT)</span>
-                            <span class="tag">DSA Fundamentals</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>System Design(Basics)</h3>
-                        <div class="skill-tags">
-                            <span class="tag">Client-Server Arch</span>
-                            <span class="tag">Database Design</span>
-                            <span class="tag">Caching Basics</span>
-                            <span class="tag">Auth Flows</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Databases</h3>
-                        <div class="skill-tags">
-                            <span class="tag">MySQL</span>
-                            <span class="tag">MongoDB</span>
-                            <span class="tag">Redis (Basic)</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>DevOps & Cloud</h3>
-                        <div class="skill-tags">
-                            <span class="tag">Linux</span>
-                            <span class="tag">Git & GitHub</span>
-                            <span class="tag">Docker</span>
-                            <span class="tag">AWS (Basics)</span>
-                        </div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>AI / GenAI</h3>
-                        <div class="skill-tags">
-                            <span class="tag">LLM Integration</span>
-                            <span class="tag">Prompt Engineering</span>
-                            <span class="tag">GenAI Apps</span>
-                        </div>
-                    </div>
-                    <div class="skill-category" style="border-color: var(--accent);">
-                        <h3>Learning & Growth</h3>
-                        <div class="skill-tags">
-                            <span class="tag">Kubernetes</span>
-                            <span class="tag">Cloud (AWS)</span>
-                            <span class="tag">Advanced Scalability</span>
-                            <span class="tag">Quantum Computing DIE-HARD fan</span>
-                        </div>
+                    <div class="section-heading"><p class="prompt">./list-stack --evidence-first</p><h2>Skills organized by hiring signal.</h2></div>
+                    <div class="skill-board">
+                        <article class="skill-category"><h3>Languages</h3><div class="tag-row"><span>JavaScript</span><span>Java</span><span>Python</span><span>SQL</span></div></article>
+                        <article class="skill-category"><h3>Backend</h3><div class="tag-row"><span>Node.js</span><span>Express</span><span>REST APIs</span><span>JWT Auth</span><span>Joi/Zod Validation</span></div></article>
+                        <article class="skill-category"><h3>Databases</h3><div class="tag-row"><span>MySQL</span><span>MongoDB</span><span>Sequelize</span><span>Firestore</span><span>Redis Basics</span></div></article>
+                        <article class="skill-category"><h3>Systems and Tools</h3><div class="tag-row"><span>Docker</span><span>Git/GitHub</span><span>Linux CLI</span><span>Swagger</span><span>Postman</span></div></article>
+                        <article class="skill-category"><h3>AI Integration</h3><div class="tag-row"><span>Gemini API</span><span>OpenAI API</span><span>RAG</span><span>LangGraph</span><span>Prompt Design</span></div></article>
+                        <article class="skill-category"><h3>Learning Now</h3><div class="tag-row"><span>AWS Basics</span><span>Kubernetes</span><span>System Design</span><span>Data Science</span></div></article>
                     </div>
                 </section>
 
-                <!-- Projects Section -->
                 <section id="projects" class="section">
-                    <div class="terminal-header">
-                        <h2><span class="prompt">root@chandan:~/projects$</span> git log --oneline</h2>
-                    </div>
-                    <!-- Projects will be injected here by JS -->
-                    <div id="projects-container" class="projects-grid">
-                        <div class="loading-cursor">Fetching repositories..._</div>
+                    <div class="section-heading with-action"><div><p class="prompt">git log --curated --sde</p><h2>Backend and full-stack projects that show talent.</h2></div><a class="btn small" href="https://github.com/ChandanLabs" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i> ChandanLabs</a></div>
+                    <div id="sde-projects" class="projects-grid"></div>
+                </section>
+
+                <section id="console" class="section">
+                    <div class="section-heading"><p class="prompt">curl /api/profile-readiness</p><h2>Interactive recruiter console.</h2></div>
+                    <div class="api-console">
+                        <div class="api-toolbar"><select id="http-method" class="terminal-select" aria-label="HTTP method"><option value="GET">GET</option><option value="POST">POST</option></select><input id="api-endpoint" class="terminal-input-inline" value="/api/profile-readiness" aria-label="API endpoint"><button id="send-request" class="btn primary small" type="button">Send</button></div>
+                        <div class="endpoint-list" aria-label="Available endpoints"><button type="button" data-endpoint="/api/profile-readiness">profile-readiness</button><button type="button" data-endpoint="/api/strongest-projects">strongest-projects</button><button type="button" data-endpoint="/api/hire-signal">hire-signal</button></div>
+                        <pre class="response-box"><code id="json-response">// Waiting for request...</code></pre>
                     </div>
                 </section>
 
-                <!-- Contact Section -->
                 <section id="contact" class="section">
-                    <div class="terminal-header">
-                        <h2><span class="prompt">root@chandan:~/contact$</span> ./send_message.sh</h2>
-                    </div>
-                    <div class="contact-form-container">
-                        <div class="form-group">
-                            <label>> Enter your email:</label>
-                            <input type="email" class="terminal-input" placeholder="_">
-                        </div>
-                        <div class="form-group">
-                            <label>> Message:</label>
-                            <textarea class="terminal-input" rows="4" placeholder="_"></textarea>
-                        </div>
-                        <button class="terminal-btn">EXECUTE SEND</button>
-
-                        <div class="social-links-terminal">
-                            <p>Or connect via:</p>
-                            <a href="mailto:chandan.kumar.sah.teli2005@gmail.com" class="social-cmd">ssh chandan.kumar.sah.teli2005@gmail.com</a>
-                            <a href="mailto:sah288012@gmail.com" class="social-cmd">ssh sah288012@gmail.com</a>
-                            <a href="https://linkedin.com/in/chandan-kumar-sah-teli-8718b6364/" target="_blank"
-                                class="social-cmd">curl linkedin/chandan</a>
-                            <a href="https://github.com/ChandanLabs" target="_blank" class="social-cmd">git remote add
-                                origin github/ChandanLabs</a>
+                    <div class="section-heading"><p class="prompt">./connect --role internship --role associate-sde</p><h2>Contact and profiles.</h2></div>
+                    <div class="contact-layout">
+                        <form id="contact-form" class="contact-form">
+                            <label>Your email<input id="visitor-email" class="terminal-input" type="email" placeholder="recruiter@company.com"></label>
+                            <label>Message<textarea id="visitor-message" class="terminal-input" rows="5" placeholder="Hi Chandan, I saw your backend and AI projects..."></textarea></label>
+                            <button class="btn primary" type="submit"><i class="fa-solid fa-envelope"></i> Open Email Draft</button>
+                        </form>
+                        <div class="link-matrix">
+                            <a href="mailto:chandan.kumar.sah.teli2005@gmail.com"><i class="fa-solid fa-envelope"></i> Email</a>
+                            <a href="https://linkedin.com/in/chandan-kumar-sah-teli-8718b6364/" target="_blank" rel="noreferrer"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                            <a href="https://github.com/ChandanLabs" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i> GitHub</a>
+                            <a href="https://leetcode.com/u/ChandanDebugs/" target="_blank" rel="noreferrer"><i class="fa-solid fa-code"></i> LeetCode</a>
+                            <a href="https://www.hackerrank.com/profile/chandan_kumar_s4" target="_blank" rel="noreferrer"><i class="fa-brands fa-hackerrank"></i> HackerRank</a>
+                            <a href="https://www.geeksforgeeks.org/user/chandankumar6qcv/" target="_blank" rel="noreferrer"><i class="fa-solid fa-laptop-code"></i> GFG</a>
                         </div>
                     </div>
                 </section>
-
             </div>
         </main>
     </div>
-
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
     <script src="script.js"></script>
 </body>
 
