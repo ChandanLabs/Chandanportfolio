@@ -1,298 +1,285 @@
-// Basic terminal clock
-function updateClock() {
-    const now = new Date();
-    document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', { hour12: false });
-}
-setInterval(updateClock, 1000);
-updateClock();
+﻿const rolesByPage = {
+    sde: ["SDE Fresher", "Backend API Builder", "B.Tech CSE 2027", "AI-aware Developer"],
+    ai: ["AI Engineer Workspace", "RAG and Agents Builder", "LLM App Developer", "AI Fullstack Lab"]
+};
 
-// Navigation Logic
-const navItems = document.querySelectorAll('.nav-item');
-const sections = document.querySelectorAll('.section');
-
-navItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        // Remove active class from all
-        navItems.forEach(nav => nav.classList.remove('active'));
-        sections.forEach(sec => sec.classList.remove('active-section'));
-
-        // Add to current
-        item.classList.add('active');
-        const targetId = item.getAttribute('href').substring(1);
-        document.getElementById(targetId).classList.add('active-section');
-    });
-});
-
-// GitHub Projects Fetcher
-const GITHUB_USERNAME = 'ChandanLabs';
-const PROJECTS_CONTAINER = document.getElementById('projects-container');
-
-async function fetchProjects() {
-    try {
-        const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=100`);
-        if (!response.ok) throw new Error('Failed to fetch/API Rate Limit');
-        const repos = await response.json();
-
-        displayProjects(repos);
-    } catch (error) {
-        console.error(error);
-        PROJECTS_CONTAINER.innerHTML = `<p style="color:red">Error: Connection Refused (GitHub API Rate Limit). <br> Please visit <a href="https://github.com/${GITHUB_USERNAME}" target="_blank" style="color:var(--accent)">GitHub Direct</a></p>`;
-
-        // Fallback static data if API fails (simulating robustness)
-        setTimeout(() => {
-            const fallbackRepos = [
-                { name: "BloodByte", description: "Emergency Blood Donation Platform with AI-driven urgency detection.", html_url: "#", language: "JavaScript", stargazers_count: 5 },
-                { name: "OpsGuardian", description: "AI-driven DevOps monitoring agent for real-time system health.", html_url: "#", language: "Python", stargazers_count: 3 },
-                { name: "ThePhoenix-Agent", description: "Self-healing Node.js service with GenAI error resolution.", html_url: "#", language: "Node.js", stargazers_count: 10 }
-            ];
-            displayProjects(fallbackRepos);
-        }, 1000);
+const sdeProjects = [
+    {
+        name: "Event Booking System",
+        type: "Backend API",
+        problem: "A production-style event and attendance API where booking correctness matters under concurrent demand.",
+        proof: "Uses Node.js, Express, MySQL, Sequelize, Joi validation, Swagger docs, Docker setup, and transaction-safe booking logic with SELECT FOR UPDATE.",
+        stack: ["Node.js", "Express", "MySQL", "Sequelize", "Docker", "Swagger"],
+        url: "https://github.com/ChandanLabs/Event_Booking_System"
+    },
+    {
+        name: "AI-First Laundry Management",
+        type: "Full-stack API",
+        problem: "A practical order-management system with pricing, status transitions, filtering, and dashboard analytics.",
+        proof: "Shows MVC structure, REST endpoints, validated state flow, responsive frontend, and deployment-ready static/server setup.",
+        stack: ["Node.js", "Express", "JavaScript", "REST", "Dashboard"],
+        url: "https://github.com/AIFullstack-web/ai-first-laundry-management-system"
+    },
+    {
+        name: "BloodByte",
+        type: "Realtime + AI",
+        problem: "Emergency blood requests need verification, urgency detection, and nearby donor matching.",
+        proof: "Combines React, Firebase Functions, Firestore realtime listeners, Gemini document analysis, and geolocation matching.",
+        stack: ["React", "Firebase", "Gemini", "Firestore", "Cloud Functions"],
+        url: "https://github.com/ChandanLabs/Bloodyte"
+    },
+    {
+        name: "OpsGuardian",
+        type: "Backend automation",
+        problem: "Known backend incidents should move from alert to analysis to safe remediation faster.",
+        proof: "Event-driven incident workflow using Motia, TypeScript, OpenAI analysis, state tracking, approval gates, and integration tests.",
+        stack: ["TypeScript", "Motia", "OpenAI", "Jest", "Supertest"],
+        url: "https://github.com/ChandanLabs/OpsGuardian"
     }
-}
-
-function displayProjects(repos) {
-    PROJECTS_CONTAINER.innerHTML = ''; // Clear loading
-
-    // Filter for "important" or general backend projects. 
-    // Since "backend" isn't always in topic, we show all but prioritize those with descriptions.
-    const validRepos = repos.filter(repo => !repo.fork && repo.description); // Filter forks if desired, or keep them
-
-    validRepos.forEach(repo => {
-        const card = document.createElement('div');
-        card.className = 'project-card';
-
-        card.innerHTML = `
-            <div>
-                <div class="project-header">
-                    <a href="${repo.html_url}" target="_blank" class="project-title">${repo.name}</a>
-                    <i class="fas fa-code-branch" style="color:#555"></i>
-                </div>
-                <p class="project-desc">${repo.description || 'No description available.'}</p>
-            </div>
-            <div>
-                 <div class="project-meta">
-                    <span><i class="fas fa-circle" style="font-size:0.6rem; color: ${getLanguageColor(repo.language)}"></i> ${repo.language || 'Code'}</span>
-                    <span><i class="far fa-star"></i> ${repo.stargazers_count}</span>
-                </div>
-                <div class="project-links">
-                    <a href="${repo.html_url}" target="_blank" class="p-btn">> View Source</a>
-                    ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" class="p-btn">> Live</a>` : ''}
-                </div>
-            </div>
-        `;
-        PROJECTS_CONTAINER.appendChild(card);
-    });
-}
-
-function getLanguageColor(lang) {
-    const colors = {
-        'JavaScript': '#f1e05a',
-        'Python': '#3572A5',
-        'Java': '#b07219',
-        'HTML': '#e34c26',
-        'CSS': '#563d7c',
-        'TypeScript': '#2b7489'
-    };
-    return colors[lang] || '#ccc';
-}
-
-// Init
-fetchProjects();
-
-// Button Interactions (smooth scroll is handled by CSS, but "Download Resume" needs log)
-document.querySelectorAll('.terminal-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-        console.log(`Executing: ${this.textContent}`);
-    });
-});
-
-// Back to top button logic
-// Create button dynamically since it was missing in HTML
-const backToTopBtn = document.createElement('button');
-backToTopBtn.id = 'back-to-top';
-backToTopBtn.className = 'back-to-top';
-backToTopBtn.innerHTML = '↑';
-backToTopBtn.ariaLabel = "Scroll to top";
-document.body.appendChild(backToTopBtn);
-
-const innerScroll = document.querySelector('.content-scroll');
-
-function toggleBackToTop(scrollTop) {
-    if (scrollTop > 300) {
-        backToTopBtn.classList.add('show');
-    } else {
-        backToTopBtn.classList.remove('show');
-    }
-}
-
-// Listener for Desktop (Inner Scroll)
-if (innerScroll) {
-    innerScroll.addEventListener('scroll', (e) => {
-        toggleBackToTop(e.target.scrollTop);
-    });
-}
-
-// Listener for Mobile (Window Scroll)
-window.addEventListener('scroll', () => {
-    toggleBackToTop(window.scrollY);
-});
-
-backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (innerScroll) {
-        innerScroll.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-});
-
-// Role Typing Animation
-const roles = [
-    "Junior Backend Engineer",
-    "API Developer",
-    "Cloud Learner"
 ];
-const typingRoleElement = document.getElementById('typing-role');
-let roleIndex = 0;
-let charIndex = 0;
-let isDeleting = false;
-let typeSpeed = 100;
 
-function typeRoleEffect() {
-    const currentRole = roles[roleIndex];
-
-    if (isDeleting) {
-        typingRoleElement.textContent = currentRole.substring(0, charIndex - 1);
-        charIndex--;
-        typeSpeed = 50; // Faster deleting
-    } else {
-        typingRoleElement.textContent = currentRole.substring(0, charIndex + 1);
-        charIndex++;
-        typeSpeed = 100; // Normal typing
+const aiProjects = [
+    {
+        name: "Autonomous Job Agent",
+        type: "RAG + Agent Workflow",
+        problem: "Discover jobs, score fit, tailor application material, and prepare semi-autonomous submissions from grounded profile data.",
+        proof: "Experience Lake, local retrieval index, FastAPI ingestion, LangGraph pipeline, matching logic, tailoring agent, and browser execution module.",
+        stack: ["Python", "FastAPI", "RAG", "LangGraph", "SeleniumBase"],
+        url: "https://github.com/AIFullstack-web/Job-agent-"
+    },
+    {
+        name: "BharatRank",
+        type: "Candidate Ranking AI",
+        problem: "Rank a 100,000-candidate pool against a detailed Senior AI Engineer JD without hosted LLM calls.",
+        proof: "Single-command TF-IDF ranking pipeline, hard-screen penalties, behavioral multipliers, validator, and reproducible CSV output.",
+        stack: ["Python", "TF-IDF", "Ranking", "Data Pipeline", "Validation"],
+        url: "https://github.com/AIFullstack-web/BharatRank"
+    },
+    {
+        name: "AI Cricket Bowling Analyzer",
+        type: "Computer Vision + Coaching",
+        problem: "Fast bowlers need real-time biomechanical feedback at ball release.",
+        proof: "YOLO pose extraction, release detection heuristics, biomechanics engine, scoring, Gemini feedback, FastAPI/SSE, and React UI.",
+        stack: ["Python", "YOLO", "Gemini", "FastAPI", "React", "SSE"],
+        url: "https://github.com/ChandanLabs/ai-cricket-bowling-analyzer"
+    },
+    {
+        name: "The Phoenix Agent",
+        type: "Self-healing AI Agent",
+        problem: "A crashing service should be diagnosed, patched, and restarted with minimal manual effort.",
+        proof: "Guardian process monitors Node.js service health, sends stack traces to an LLM, applies fixes, and verifies recovery with tests.",
+        stack: ["Node.js", "Express", "Together AI", "Docker", "Tests"],
+        url: "https://github.com/ChandanLabs/ThePhoenix-Agent"
+    },
+    {
+        name: "OpsGuardian",
+        type: "AI SRE Agent",
+        problem: "Incident response needs safe automation with human approval before risky actions.",
+        proof: "Motia workflow steps, OpenAI log analysis, stateful approval, remediation events, observability, and Jest/Supertest coverage.",
+        stack: ["TypeScript", "Motia", "OpenAI", "Workflow", "Testing"],
+        url: "https://github.com/ChandanLabs/OpsGuardian"
+    },
+    {
+        name: "CampusGPT Agent",
+        type: "Learning Assistant",
+        problem: "Students need notes, PDFs, images, quizzes, and study plans converted into usable study material.",
+        proof: "Positioned as a multimodal Gemini-powered learning assistant in the AIFullstack-web lab.",
+        stack: ["Gemini", "Multimodal AI", "Study Plans", "Quizzes"],
+        url: "https://github.com/AIFullstack-web/CampusGPT-Agent"
     }
+];
 
-    if (!isDeleting && charIndex === currentRole.length) {
-        // Finished typing word
-        isDeleting = true;
-        typeSpeed = 2000; // Pause at end
-    } else if (isDeleting && charIndex === 0) {
-        // Finished deleting word
-        isDeleting = false;
-        roleIndex = (roleIndex + 1) % roles.length;
-        typeSpeed = 500; // Pause before next word
+const apiResponses = {
+    "/api/profile-readiness": {
+        status: 200,
+        candidate: "Chandan Kumar Sah Teli",
+        target_roles: ["SDE Internship", "Associate SDE", "AI-aware Backend Developer"],
+        strongest_signals: ["transaction-safe backend APIs", "AI integration projects", "DSA and CS fundamentals"],
+        graduation: "B.Tech CSE, graduating 2027"
+    },
+    "/api/strongest-projects": {
+        status: 200,
+        backend: ["Event Booking System", "AI-First Laundry Management", "BloodByte"],
+        ai: ["Autonomous Job Agent", "AI Cricket Bowling Analyzer", "OpsGuardian", "BharatRank"]
+    },
+    "/api/hire-signal": {
+        status: 201,
+        message: "Proof-first fresher profile ready for internship and associate SDE conversations.",
+        contact: "chandan.kumar.sah.teli2005@gmail.com"
     }
+};
 
-    setTimeout(typeRoleEffect, typeSpeed);
+const page = document.body.dataset.page || "sde";
+const navItems = document.querySelectorAll(".nav-item");
+const sections = document.querySelectorAll(".section");
+const innerScroll = document.querySelector(".content-scroll");
+const clock = document.getElementById("clock");
+const themeToggleBtn = document.getElementById("theme-toggle");
+const backToTopBtn = document.getElementById("back-to-top");
+
+function updateClock() {
+    if (!clock) return;
+    clock.textContent = new Date().toLocaleTimeString("en-US", { hour12: false });
 }
 
-// Start typing effect if element exists
-if (typingRoleElement) {
-    typeRoleEffect();
-}
-
-// --- NEW INTERACTIVE FEATURES ---
-
-// 1. Navigation Fix & Logic
 function navigateToSection(targetId) {
-    // Remove active class from all nav items
-    navItems.forEach(nav => {
-        nav.classList.remove('active');
-        if (nav.getAttribute('href') === `#${targetId}`) {
-            nav.classList.add('active');
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    navItems.forEach((item) => {
+        item.classList.toggle("active", item.getAttribute("href") === `#${targetId}`);
+    });
+
+    sections.forEach((section) => section.classList.remove("active-section"));
+    target.classList.add("active-section");
+
+    if (innerScroll) {
+        innerScroll.scrollTo({ top: 0, behavior: "smooth" });
+    }
+}
+
+function renderProjects(containerId, projects) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    container.innerHTML = projects.map((project) => `
+        <article class="project-card">
+            <span class="project-kicker">${project.type}</span>
+            <h3 class="project-title">${project.name}</h3>
+            <p class="project-desc">${project.problem}</p>
+            <div class="project-proof">${project.proof}</div>
+            <div class="project-tags">${project.stack.map((item) => `<span>${item}</span>`).join("")}</div>
+            <div class="project-links">
+                <a class="btn small" href="${project.url}" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i> Source</a>
+            </div>
+        </article>
+    `).join("");
+}
+
+function startTyping() {
+    const element = document.getElementById("typing-role");
+    if (!element) return;
+
+    const roles = rolesByPage[page] || rolesByPage.sde;
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function tick() {
+        const role = roles[roleIndex];
+        element.textContent = role.slice(0, charIndex);
+
+        if (isDeleting) {
+            charIndex -= 1;
+        } else {
+            charIndex += 1;
+        }
+
+        if (!isDeleting && charIndex > role.length) {
+            isDeleting = true;
+            setTimeout(tick, 1200);
+            return;
+        }
+
+        if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            roleIndex = (roleIndex + 1) % roles.length;
+        }
+
+        setTimeout(tick, isDeleting ? 45 : 85);
+    }
+
+    tick();
+}
+
+function setupTheme() {
+    if (!themeToggleBtn) return;
+    const icon = themeToggleBtn.querySelector("i");
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "light") {
+        document.body.classList.add("light-mode");
+        icon?.classList.replace("fa-sun", "fa-moon");
+    }
+
+    themeToggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("light-mode");
+        const light = document.body.classList.contains("light-mode");
+        localStorage.setItem("theme", light ? "light" : "dark");
+        if (icon) {
+            icon.classList.toggle("fa-sun", !light);
+            icon.classList.toggle("fa-moon", light);
         }
     });
-
-    // Hide all sections, show target
-    sections.forEach(sec => sec.classList.remove('active-section'));
-    const targetSection = document.getElementById(targetId);
-    if (targetSection) {
-        targetSection.classList.add('active-section');
-    }
 }
 
-// Global click listener for internal links to fix the "View Projects" bug
-document.addEventListener('click', (e) => {
-    if (e.target.matches('a[href^="#"]')) {
-        e.preventDefault();
-        const targetId = e.target.getAttribute('href').substring(1);
-        navigateToSection(targetId);
-    }
-});
-
-// 2. Theme Toggle
-const themeToggleBtn = document.getElementById('theme-toggle');
-const body = document.body;
-const icon = themeToggleBtn.querySelector('i');
-
-// Load saved theme
-if (localStorage.getItem('theme') === 'light') {
-    body.classList.add('light-mode');
-    icon.classList.replace('fa-sun', 'fa-moon');
-}
-
-themeToggleBtn.addEventListener('click', () => {
-    body.classList.toggle('light-mode');
-    if (body.classList.contains('light-mode')) {
-        localStorage.setItem('theme', 'light');
-        icon.classList.replace('fa-sun', 'fa-moon');
-    } else {
-        localStorage.setItem('theme', 'dark');
-        icon.classList.replace('fa-moon', 'fa-sun');
-    }
-});
-
-// 3. API Console Logic
-const apiEndpointInput = document.getElementById('api-endpoint');
-const jsonResponseElement = document.getElementById('json-response');
-const sendRequestBtn = document.getElementById('send-request');
-
-if (sendRequestBtn) {
-    window.setEndpoint = (path) => {
-        apiEndpointInput.value = path;
-    };
-
-    sendRequestBtn.addEventListener('click', () => {
-        const endpoint = apiEndpointInput.value;
-        const method = document.getElementById('http-method').value;
-
-        jsonResponseElement.textContent = '// Processing...';
-
-        // Mock Responses
-        let responseData = {};
-
-        setTimeout(() => {
-            if (endpoint === '/api/active-projects') {
-                responseData = {
-                    status: 200,
-                    data: [
-                        { id: 101, name: "BloodByte", active: true, reqs_per_sec: 45 },
-                        { id: 102, name: "OpsGuardian", active: true, uptime: "99.9%" }
-                    ]
-                };
-            } else if (endpoint === '/api/system-health') {
-                responseData = {
-                    status: 200,
-                    system: {
-                        cpu_load: "12%",
-                        memory_free: "4096MB",
-                        tasks: "Idle"
-                    }
-                };
-            } else if (endpoint === '/api/hire-me') {
-                responseData = {
-                    status: 201,
-                    message: "Application accepted! Please email sah288012@gmail.com to schedule an interview."
-                };
-            } else {
-                responseData = {
-                    status: 404,
-                    error: "Endpoint not found"
-                };
-            }
-
-            jsonResponseElement.textContent = JSON.stringify(responseData, null, 2);
-        }, 600); // Simulate network latency
+function setupBackToTop() {
+    if (!backToTopBtn) return;
+    const update = (scrollTop) => backToTopBtn.classList.toggle("show", scrollTop > 240);
+    innerScroll?.addEventListener("scroll", (event) => update(event.target.scrollTop));
+    window.addEventListener("scroll", () => update(window.scrollY));
+    backToTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        innerScroll?.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
 
+function setupApiConsole() {
+    const endpointInput = document.getElementById("api-endpoint");
+    const responseElement = document.getElementById("json-response");
+    const sendButton = document.getElementById("send-request");
+    if (!endpointInput || !responseElement || !sendButton) return;
 
+    document.querySelectorAll("[data-endpoint]").forEach((button) => {
+        button.addEventListener("click", () => {
+            endpointInput.value = button.dataset.endpoint;
+        });
+    });
+
+    sendButton.addEventListener("click", () => {
+        const endpoint = endpointInput.value.trim();
+        responseElement.textContent = "// Processing...";
+        setTimeout(() => {
+            const response = apiResponses[endpoint] || { status: 404, error: "Endpoint not found", available: Object.keys(apiResponses) };
+            responseElement.textContent = JSON.stringify(response, null, 2);
+        }, 350);
+    });
+}
+
+function setupContactForm() {
+    const form = document.getElementById("contact-form");
+    if (!form) return;
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const email = document.getElementById("visitor-email")?.value.trim();
+        const message = document.getElementById("visitor-message")?.value.trim();
+        const body = [
+            message || "Hi Chandan, I saw your portfolio and would like to connect.",
+            "",
+            email ? `From: ${email}` : ""
+        ].join("\n");
+
+        const mailto = new URL("mailto:chandan.kumar.sah.teli2005@gmail.com");
+        mailto.searchParams.set("subject", "Portfolio opportunity");
+        mailto.searchParams.set("body", body);
+        window.location.href = mailto.toString();
+    });
+}
+
+document.addEventListener("click", (event) => {
+    const anchor = event.target.closest('a[href^="#"]');
+    if (!anchor) return;
+    event.preventDefault();
+    navigateToSection(anchor.getAttribute("href").slice(1));
+});
+
+setInterval(updateClock, 1000);
+updateClock();
+setupTheme();
+setupBackToTop();
+setupApiConsole();
+setupContactForm();
+startTyping();
+renderProjects("sde-projects", sdeProjects);
+renderProjects("ai-projects", aiProjects);
