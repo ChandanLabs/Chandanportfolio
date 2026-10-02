@@ -346,8 +346,9 @@ textarea.terminal-input { min-height: 132px; resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .section, .cursor { animation: none; }
-    .reveal, .project-card { opacity: 1; transform: none; transition: none; }
-    .project-card:hover { transform: none; box-shadow: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .project-card { transform: none; transition: border-color 160ms ease, box-shadow 160ms ease; }
+    .project-card:hover { border-color: var(--accent-2); box-shadow: 0 8px 24px var(--shadow); }
     .coverage-track span { width: var(--coverage); transition: none; }
 }
 

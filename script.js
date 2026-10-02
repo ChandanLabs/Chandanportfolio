@@ -274,6 +274,8 @@ function setupScrollReveal() {
         ".section-heading, .hero-copy, .hero-terminal, .metric-card, .proof-card, .skill-category, .skill-evidence, .timeline-item, .project-card, .api-console, .contact-form, .link-matrix, .lab-card"
     );
 
+    revealElements.forEach((element) => element.classList.add("reveal"));
+
     if (!("IntersectionObserver" in window)) {
         revealElements.forEach((element) => element.classList.add("is-visible"));
         return;
@@ -293,10 +295,7 @@ function setupScrollReveal() {
         });
     }, { threshold: 0.12, rootMargin: "0px 0px -24px 0px" });
 
-    revealElements.forEach((element) => {
-        element.classList.add("reveal");
-        observer.observe(element);
-    });
+    revealElements.forEach((element) => observer.observe(element));
 }
 
 function setupApiConsole() {
