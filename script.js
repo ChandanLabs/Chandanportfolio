@@ -112,7 +112,6 @@ const apiResponses = {
 const page = document.body.dataset.page || "sde";
 const navItems = document.querySelectorAll(".nav-item");
 const sections = document.querySelectorAll(".section");
-const innerScroll = document.querySelector(".content-scroll");
 const clock = document.getElementById("clock");
 const themeToggleBtn = document.getElementById("theme-toggle");
 const backToTopBtn = document.getElementById("back-to-top");
@@ -133,9 +132,7 @@ function navigateToSection(targetId) {
     sections.forEach((section) => section.classList.remove("active-section"));
     target.classList.add("active-section");
 
-    if (innerScroll) {
-        innerScroll.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function renderProjects(containerId, projects) {
@@ -156,11 +153,42 @@ function renderProjects(containerId, projects) {
     `).join("");
 }
 
+function renderProjectCoverage(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const projects = [...sdeProjects, ...aiProjects];
+    const technologies = ["Node.js", "Express", "Python", "React", "Docker", "MySQL"];
+    const counts = technologies.map((technology) => ({
+        name: technology,
+        count: projects.filter((project) => project.stack.includes(technology)).length
+    }));
+    const maxCount = Math.max(...counts.map(({ count }) => count));
+
+    container.innerHTML = `
+        <h3>Project coverage</h3>
+        <p>Number of curated projects listing each technology, out of ${projects.length}.</p>
+        <div class="coverage-list">
+            ${counts.map(({ name, count }) => `
+                <div class="coverage-row">
+                    <div class="coverage-label"><span>${name}</span><span>${count}/${projects.length}</span></div>
+                    <div class="coverage-track"><span style="--coverage: ${(count / maxCount) * 100}%"></span></div>
+                </div>
+            `).join("")}
+        </div>
+    `;
+}
+
 function startTyping() {
     const element = document.getElementById("typing-role");
     if (!element) return;
 
     const roles = rolesByPage[page] || rolesByPage.sde;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        element.textContent = roles[0];
+        return;
+    }
+
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
@@ -216,11 +244,58 @@ function setupTheme() {
 function setupBackToTop() {
     if (!backToTopBtn) return;
     const update = (scrollTop) => backToTopBtn.classList.toggle("show", scrollTop > 240);
-    innerScroll?.addEventListener("scroll", (event) => update(event.target.scrollTop));
     window.addEventListener("scroll", () => update(window.scrollY));
     backToTopBtn.addEventListener("click", () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
-        innerScroll?.scrollTo({ top: 0, behavior: "smooth" });
+    });
+}
+
+function animateMetric(element) {
+    const target = Number(element.dataset.count);
+    const suffix = element.dataset.suffix || "";
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        element.textContent = `${target}${suffix}`;
+        return;
+    }
+
+    const start = performance.now();
+    const duration = 900;
+    function update(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        element.textContent = `${Math.round(target * eased)}${suffix}`;
+        if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+}
+
+function setupScrollReveal() {
+    const revealElements = document.querySelectorAll(
+        ".section-heading, .hero-copy, .hero-terminal, .metric-card, .proof-card, .skill-category, .skill-evidence, .timeline-item, .project-card, .api-console, .contact-form, .link-matrix, .lab-card"
+    );
+
+    if (!("IntersectionObserver" in window)) {
+        revealElements.forEach((element) => element.classList.add("is-visible"));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+
+            entry.target.classList.add("is-visible");
+            const metric = entry.target.querySelector("[data-count]");
+            if (metric && !metric.dataset.animated) {
+                metric.dataset.animated = "true";
+                animateMetric(metric);
+            }
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.12, rootMargin: "0px 0px -24px 0px" });
+
+    revealElements.forEach((element) => {
+        element.classList.add("reveal");
+        observer.observe(element);
     });
 }
 
@@ -283,3 +358,6 @@ setupContactForm();
 startTyping();
 renderProjects("sde-projects", sdeProjects);
 renderProjects("ai-projects", aiProjects);
+renderProjectCoverage("sde-project-coverage");
+renderProjectCoverage("ai-project-coverage");
+setupScrollReveal();
